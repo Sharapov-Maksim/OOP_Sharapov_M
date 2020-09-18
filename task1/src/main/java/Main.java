@@ -3,6 +3,9 @@ public class Main {
         int arr[] = {15, 4, -1, 3, 100, 10500, -123, 5, 5, 5, 18, -404, 505, 112};
         Heap myHeap = new Heap(arr.length);
         myHeap.heapsort(arr);
+        for (int i = 0; i < arr.length; i++){
+            System.out.println(arr[i]);
+        }
     }
 }
 
@@ -68,7 +71,6 @@ class Heap {
         }
         for (int i = 0; i < arr.length; i++){
             arr[i] = extractmin();
-            System.out.println(arr[i]);
         }
     }
 
