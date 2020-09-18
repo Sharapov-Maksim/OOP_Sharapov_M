@@ -1,7 +1,6 @@
 public class Main {
     public static void main (String args[]) {
-        //System.out.println("Hello");
-        int arr[] = {15, 4, 100};
+        int arr[] = {15, 4, -1, 3, 100, 10500, -123, 5, 5, 5, 18, -404, 505, 112};
         Heap myHeap = new Heap(arr.length);
         myHeap.heapsort(arr);
     }
@@ -43,8 +42,12 @@ class Heap {
     public void siftDown(int v){
         int ls = v * 2 + 1; //left son
         int rs = v * 2 + 2; //right son
-        if (rs >= lstid) return;
+        if (ls >= lstid) return;
         if ((rs == lstid) && (heap[ls]>=heap[v])) return;
+        if ((rs == lstid) && (heap[ls]<heap[v])) {
+            swap(v, ls);
+            return;
+        }
         if ((rs < lstid) && (heap[ls] >= heap[v]) && (heap[rs] >= heap[v])) return;
         int minimal = minID(heap[ls], heap[rs], ls, rs);
         swap(v, minimal);
@@ -74,8 +77,8 @@ class Heap {
 
 /*
 tests
-
 {5, 4, 3, 2, 1}
 {1, 15, 4, 2, 3, -1, 0, -99, 100, 4, 5, 6, -8}
-
+{15, 4, -1, 3, 100, 10500, -123, 5, 5, 5, 18, -404, 505, 112}
+{1,1,1,1,1,1,1}
  */
