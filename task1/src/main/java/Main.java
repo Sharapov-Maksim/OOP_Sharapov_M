@@ -1,14 +1,10 @@
 public class Main {
     public static void main (String args[]) {
         int arr[] = {15, 4, -1, 3, 100, 100500, -123, 5, 5, 5, 18, -404, 505, 112};
-        sort(arr);
+        Heap.heapsort(arr);
         for (int i = 0; i < arr.length; i++){
             System.out.println(arr[i]);
         }
-    }
-    public static int[] sort (int []arr){
-        Heap.heapsort(arr);
-        return arr;
     }
 }
 
@@ -76,6 +72,11 @@ class Heap {
 
     }
 
+    /**
+     * method heapsort provides an interface for interacting with the heap sorting algorithm
+     * @param arr     array, that needs to be sorted
+     *                will be sorted in the end of method execution
+     */
     public static void heapsort(int arr[]){
         Heap myHeap = new Heap(arr.length);
 
@@ -88,5 +89,3 @@ class Heap {
     }
 
 }
-
-
