@@ -75,8 +75,11 @@ public class Main {
                 pos -= l2;
                 System.arraycopy(str, lenSubStr*2, str, lenSubStr, lenSubStr);
                 l2 = in.read(str, lenSubStr*2, lenSubStr);
+                if (l2 < lenSubStr){
+                    str[lenSubStr*2 + l2] = 0;
+                }
             }
-        } 
+        }
         return resList;
     }
 }
