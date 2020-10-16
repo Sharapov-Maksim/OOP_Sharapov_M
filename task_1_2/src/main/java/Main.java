@@ -3,58 +3,51 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 public class Main {
     public static void main (String args[]) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
-        String fname;
-        String substrIn;
-        fname = br.readLine();
-        substrIn = br.readLine();
-        ArrayList<Long> res = new ArrayList<>();
-        res = substrSearchInFile(fname, substrIn);
-        for (int i = 0; i<res.size(); i++){
-            System.out.println(res.get(i));
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))) {
+            String fname;
+            String substrIn;
+            fname = br.readLine();
+            substrIn = br.readLine();
+            ArrayList<Long> res = new ArrayList<>();
+            try (InputStream inStream = new FileInputStream(fname)) {
+                res = substrSearchInStream(inStream, substrIn);
+            }
+            for (int i = 0; i < res.size(); i++) {
+                System.out.println(res.get(i));
+            }
         }
     }
 
     /**
      * method that search substring in specified file
-     * @param fname full file name
+     * @param inStream input stream
      * @param substrIn substring that searched for
      * @return ArrayList with all entrуes of substrIn in file
      */
 
-    public static ArrayList<Long> substrSearchInFile (String fname, String substrIn) {
+    public static ArrayList<Long> substrSearchInStream (InputStream inStream, String substrIn) throws IOException  {
         ArrayList<Long> resList = new ArrayList<>();
         char substr[] = new char[substrIn.length()];
         substr = substrIn.toCharArray();
         int lenSubStr = substr.length;
-        BufferedReader readerq = null;
         FileInputStream reader = null;
         long pos = 0; //position of start substring entry
-        //TODO два буфера, каждый размером в подстроку, конкат, и поиск подстроки в новой
-        try {
-            readerq = new BufferedReader(new InputStreamReader(new FileInputStream(fname), StandardCharsets.UTF_8));
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fname), "UTF-8"));
-            char[] strForSearch = new char[lenSubStr * 2];
-            char buffer1[] = new char[lenSubStr];
-            char buffer2[] = new char[lenSubStr];
-            int l1 = in.read(buffer1, 0, lenSubStr);
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(inStream, "UTF-8"))){
+            char str[] = new char[lenSubStr * 3];
+            System.arraycopy(substr, 0, str, 0, lenSubStr);
+            int l1 = in.read(str, lenSubStr, lenSubStr);
             if (l1 < lenSubStr) {
                 return resList;
             }
-            int l2 = in.read(buffer2, 0, lenSubStr);
-            if ((l2 == -1) && (Arrays.equals(buffer1, substr))) { // when substring equals to string for search
-                //System.out.println(0);
+            int l2 = in.read(str, lenSubStr*2, lenSubStr);
+            if ((l2 == -1) && (Arrays.equals(str,lenSubStr, lenSubStr*2,substr, 0, lenSubStr))) { // when substring equals to string for search
                 resList.add(0L);
                 return resList;
             }
             while (l2 != -1) {
-                strForSearch = bufcat(buffer1, buffer2);
-
                 /*Implemented z-function algorithm to find all substrings in string strForSearch
                 * works for linear time O(N+M)*/
 
-                char[] str = new char[lenSubStr * 3];
-                str = bufcat(substr, strForSearch);
                 int zArr[] = new int[str.length];
                 zArr[0] = 0;
                 int n = str.length;
@@ -80,36 +73,11 @@ public class Main {
 
                 l1 = l2;
                 pos -= l2;
-                for (int i = 0; i < lenSubStr; i++) {
-                    buffer1[i] = buffer2[i];
-                }
-                l2 = in.read(buffer2, 0, lenSubStr);
+                System.arraycopy(str, lenSubStr*2, str, lenSubStr, lenSubStr);
+                l2 = in.read(str, lenSubStr*2, lenSubStr);
             }
-        } catch (IOException e) {
-            System.out.println("IO Error: " + e);
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                    System.out.println(e1);
-                }
-            }
-        }
+        } 
         return resList;
-    }
-
-        private static char[] bufcat (char[] b1, char[] b2){
-        char[] res = new char[b1.length+b2.length];
-        int l1 = b1.length;
-        int l2 = b2.length;
-        for(int i = 0; i<l1; i++){
-            res[i] = b1[i];
-        }
-        for(int i = 0; i<l2; i++){
-            res[l1+i] = b2[i];
-        }
-        return res;
     }
 }
 
