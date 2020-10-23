@@ -23,16 +23,16 @@ public class Stack<T> implements Iterable<T> {
     /**
      * Deleting element on the top of stack and return it
      * @return type T element, last added to stack
-     * @throws NegativeArraySizeException when user try to pop empty stack
+     * @throws EmptyStackException when user try to pop empty stack
      */
 
-    public T pop () throws Exception{
+    public T pop () throws EmptyStackException{
         if (count>0){
             T t;
             t = (T) array[--count];
             return t;
         }
-        throw new NegativeArraySizeException("The stack is empty.\n");
+        throw new EmptyStackException();
     }
 
     /**
@@ -68,8 +68,8 @@ public class Stack<T> implements Iterable<T> {
             }
 
             @Override
-            public T next() /*throws IndexOutOfBoundsException*/ {
-                //if (!hasNext()) throw new IndexOutOfBoundsException("End of list.");\
+            public T next() throws NoSuchElementException {
+                if (!hasNext()) throw new NoSuchElementException("Iteration has no more elements");
                 T result = (T)array[currid--];
                 return result;
             }

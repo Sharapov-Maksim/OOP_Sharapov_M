@@ -2,7 +2,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.EmptyStackException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 
@@ -83,7 +85,42 @@ public class StackTest {
             Assert.assertEquals(expectedResults[i], actualRes);
         }
 
-
     }
 
+
+
+    @Test(expected = EmptyStackException.class)
+    public void testEmptyStack() throws EmptyStackException {
+        int [] expectedResults = {3,2292,11};
+        Stack<Integer> stack = new Stack<Integer>();
+        stack.add(11);
+        stack.add(2292);
+        stack.add(3);
+        assertEquals(3, stack.count());
+        stack.pop();
+        stack.pop();
+        stack.pop();
+        assertEquals(0, stack.count());
+        stack.pop();
+    }
+
+
+    @Test(expected = NoSuchElementException.class)
+    public void testNoNext() throws NoSuchElementException {
+        int [] expectedResults = {6,555,434,3,2292,11};
+        Stack<Integer> stack = new Stack<Integer>();
+        stack.add(11);
+        stack.add(2292);
+        stack.add(3);
+        stack.add(434);
+        stack.add(555);
+        stack.add(6);
+        assertEquals(6, stack.count());
+        Iterator<Integer> iter = stack.iterator();
+        for (int i = 0;iter.hasNext();i++){
+            int actualRes = iter.next();
+            Assert.assertEquals(expectedResults[i], actualRes);
+        }
+        iter.next();
+    }
 }
