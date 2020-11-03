@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
@@ -80,7 +81,12 @@ public class PriorityQueueTest {
         queue.insert(200, "dog");
         queue.insert(10, "human");
         queue.insert(5, "cat");
-        queue.stream().forEach((x) -> System.out.println(x.getValue()));
+        assertEquals(3,queue.stream().count());
+        queue.stream().forEach(x -> System.out.println(x.getValue()));
+        PriorityQueue.Pair<Integer,String> act[] = (PriorityQueue.Pair<Integer, String>[]) queue.stream().toArray();
+        Assert.assertEquals("dog", act[0].getValue());
+        Assert.assertEquals("cat", act[1].getValue());
+        Assert.assertEquals("human", act[2].getValue());
     }
 
 }
