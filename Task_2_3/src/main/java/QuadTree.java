@@ -1,14 +1,13 @@
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Vector;
+import java.util.*;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.decrementExact;
+
+//TODO objects with equal coords
 
 public class QuadTree implements Iterable<Object> {
 
@@ -105,10 +104,8 @@ public class QuadTree implements Iterable<Object> {
      */
 
     QuadTree (PointObject[] arr){
-        double centerX = 0.;
-        double centerY = 0.;
         obj = null;
-        box = new AABB(centerX,centerY,Double.MAX_VALUE);
+        box = new AABB(0.0,0.0,Double.MAX_VALUE);
         subTrees = null;
         this.parent = null;
 
@@ -146,10 +143,12 @@ public class QuadTree implements Iterable<Object> {
             obj = object;
             return true;
         }
+        if(obj!=null && doub_eq(obj.x, object.x) && doub_eq(obj.y, object.y)) {
+            throw new IllegalStateException("В дереве уже есть объект с такими координатами");
+        }
 
         if (subTrees==null) subdivide();
 
-        //TODO f1 can be removed probably
         boolean f1 = false, f2 = false;
         if(obj!=null){
             for (int i = 0; i<4; i++){
@@ -241,31 +240,32 @@ public class QuadTree implements Iterable<Object> {
      * если объектов не найдено возвращается null
      */
 /*
-   |-----------------------(x2,y2)
+   |-----------------------(ruX,ruY)
    |                          |
    |                          |   <- Rectangle
    |                          |
-(x1,y1)-----------------------|
+(ldX,ldY)---------------------|
 
 
  */
 
 
-    Object[] getFromRectangle(double x1, double y1, double x2, double y2){
-        if(!box.intersectsRectangle(x1,y1,x2,y2)) return null;
-        if(obj!=null && rectangleContainsPoint(obj.x, obj.y, x1, y1, x2, y2)){
+    Object[] getFromRectangle(double ldX, double ldY, double ruX, double ruY) throws IllegalArgumentException{
+        if(ldX>ruX || ldY>ruY) throw new IllegalArgumentException("Введённые координаты не корректны");
+        if(!box.intersectsRectangle(ldX,ldY,ruX,ruY)) return null;
+        if(obj!=null && rectangleContainsPoint(obj.x, obj.y, ldX, ldY, ruX, ruY)){
             return new Object[]{obj.getObject()};
         }
         if(subTrees!=null){
             Object[] res0, res1, res2, res3;
             int cnt =0;
-            res0 = subTrees[0].getFromRectangle(x1,y1,x2,y2);
+            res0 = subTrees[0].getFromRectangle(ldX,ldY,ruX,ruY);
             if(res0!=null) cnt+=res0.length;
-            res1 = subTrees[1].getFromRectangle(x1,y1,x2,y2);
+            res1 = subTrees[1].getFromRectangle(ldX,ldY,ruX,ruY);
             if(res1!=null) cnt+=res1.length;
-            res2 = subTrees[2].getFromRectangle(x1,y1,x2,y2);
+            res2 = subTrees[2].getFromRectangle(ldX,ldY,ruX,ruY);
             if(res2!=null) cnt+=res2.length;
-            res3 = subTrees[3].getFromRectangle(x1,y1,x2,y2);
+            res3 = subTrees[3].getFromRectangle(ldX,ldY,ruX,ruY);
             if(res3!=null) cnt+=res3.length;
             Object[] resArr = new Object[cnt];
             int l = 0;
@@ -304,7 +304,7 @@ public class QuadTree implements Iterable<Object> {
     }
 
     /**
-     * Returns an iterator over elements of type {@code T}.
+     * Returns an iterator over elements of type Object
      *
      * @return an Iterator.
      */
@@ -318,13 +318,9 @@ public class QuadTree implements Iterable<Object> {
         Object[] res = getFromRectangle(x1, y1, x2, y2);
         return Arrays.stream(res).iterator();
     }
-
+/* stream через iterator, т.к. делал spliterator в прошлой задаче */
     Stream<Object> stream(){
-        double x1 = box.centerX - box.halfDimension;
-        double y1 = box.centerY - box.halfDimension;
-        double x2 = box.centerX + box.halfDimension;
-        double y2 = box.centerY + box.halfDimension;
-        Object[] res = getFromRectangle(x1, y1, x2, y2);
-        return Arrays.stream(res);
+        Iterator<Object> iter = iterator();
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter,0),false);
     }
 }

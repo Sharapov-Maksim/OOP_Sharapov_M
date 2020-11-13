@@ -32,10 +32,25 @@ public class QuadTreeTest {
         QuadTree.PointObject c = new QuadTree.PointObject(1.69, -5.5, "third point");
         QuadTree.PointObject d = new QuadTree.PointObject(-8.9, 7.2, "fourth point");
         QuadTree.PointObject e = new QuadTree.PointObject(1.541, 4.56, "fifth point");
+
         QuadTree.PointObject[] arr = {a,b,c,d};
         QuadTree qt = new QuadTree(arr);
         assertEquals(c.o, qt.getObject(c.x, c.y));
         qt.getObject(10500.,-322244.565);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void exceptionOfAdd() {
+        QuadTree.PointObject a = new QuadTree.PointObject(1.21, 4.56, "first point");
+        QuadTree.PointObject b = new QuadTree.PointObject(-0.66, -14.5, "second point");
+        QuadTree.PointObject c = new QuadTree.PointObject(1.69, -5.5, "third point");
+        QuadTree.PointObject d = new QuadTree.PointObject(-8.9, 7.2, "fourth point");
+        QuadTree.PointObject e = new QuadTree.PointObject(1.541, 4.56, "fifth point");
+        QuadTree.PointObject ban = new QuadTree.PointObject(1.541, 4.56, "baaaaaaaan");
+        QuadTree.PointObject[] arr = {a,b,c,d};
+        QuadTree qt = new QuadTree(arr);
+        qt.add(e);
+        qt.add(ban);
     }
 
     @Test
