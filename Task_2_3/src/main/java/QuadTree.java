@@ -99,6 +99,16 @@ public class QuadTree implements Iterable<Object> {
     }
 
     /**
+     * Создать пустое дерево квадрантов
+     */
+    QuadTree (){
+        obj = null;
+        box = new AABB(0.0,0.0,Double.MAX_VALUE);
+        subTrees = null;
+        this.parent = null;
+    }
+
+    /**
      * Создать дерево квадрантов по массиву объектов с их координатами
      * @param arr  массив объектов с их координатами
      */

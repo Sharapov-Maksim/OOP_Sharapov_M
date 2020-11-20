@@ -16,9 +16,8 @@ public class Main {
         if (tolerance>r) throw new IllegalArgumentException("Tolerance should be less than radius");
         double x = -r;
         double y = 0;
-        QuadTree.PointObject[] arr = {crPointCircle(x+xcenter,y+ycenter)};
-        QuadTree res = new QuadTree(arr);
-
+        QuadTree res = new QuadTree();
+        res.add(crPointCircle(x+xcenter,y+ycenter));
         int i = 1;
         while (x<r-tolerance){
             x += tolerance;
