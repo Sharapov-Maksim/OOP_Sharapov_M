@@ -146,7 +146,7 @@ public class QuadTree implements Iterable<Object> {
      * @param object объект с координатами
      * @return true если объект был успешно добавлен, false - иначе
      */
-    boolean add (PointObject object){
+    boolean add (PointObject object) throws IllegalStateException{
         if (!box.containsPoint(object.x, object.y)) return false;
 
         if (obj==null && subTrees == null) {

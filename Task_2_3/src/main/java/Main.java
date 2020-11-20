@@ -12,7 +12,7 @@ public class Main {
     }
 
     //создаёт квадродерево на основании точек, принадлежащих заданной окружности, точки вычисляются с шагом tolerance по оси X
-    static QuadTree createCircle (double xcenter, double ycenter, double r, double tolerance){
+    static QuadTree createCircle (double xcenter, double ycenter, double r, double tolerance) throws IllegalArgumentException{
         if (tolerance>r) throw new IllegalArgumentException("Tolerance should be less than radius");
         double x = -r;
         double y = 0;
