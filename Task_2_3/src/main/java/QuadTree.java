@@ -91,7 +91,7 @@ public class QuadTree implements Iterable<Object> {
      *               это повлечёт неопределённое поведение
      *               *вследствие этого возможно стоит сделать конструктор приватным*
      */
-    QuadTree (double cX, double cY, double hDim, QuadTree parent){
+    private QuadTree (double cX, double cY, double hDim, QuadTree parent){
         obj = null;
         box = new AABB(cX,cY,hDim);
         subTrees = null;
@@ -226,8 +226,9 @@ public class QuadTree implements Iterable<Object> {
         if (obj!=null && doub_eq(obj.x, x) && doub_eq(obj.y, y)) return obj;
         if (subTrees!=null){
             for(int i =0; i<4; i++){
-                if (subTrees[i].getPointObject(x,y)!=null) {
-                    return subTrees[i].getPointObject(x,y);
+                PointObject res;
+                if ((res=subTrees[i].getPointObject(x,y))!=null) {
+                    return res;
                 }
             }
         }

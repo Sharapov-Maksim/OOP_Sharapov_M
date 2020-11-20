@@ -51,7 +51,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.QuadTreeTest">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Task_2_3.main" />
@@ -59,15 +59,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -115,7 +113,9 @@
       <workItem from="1605107170768" duration="3309000" />
       <workItem from="1605162773465" duration="74000" />
       <workItem from="1605191378577" duration="6175000" />
-      <workItem from="1605246675063" duration="5990000" />
+      <workItem from="1605246675063" duration="6113000" />
+      <workItem from="1605790778595" duration="240000" />
+      <workItem from="1605855607488" duration="6905000" />
     </task>
     <servers />
   </component>
@@ -135,50 +135,54 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="159" key="#com.intellij.refactoring.typeMigration.ui.FailedConversionsDialog/0.0.1536.824@0.0.1536.824" timestamp="1605196726351" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1605258330924">
+    <state width="1493" height="143" key="GridCell.Tab.0.bottom" timestamp="1605864389761">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605258330924" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1605258330924">
+    <state width="1493" height="143" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605864389761" />
+    <state width="1493" height="143" key="GridCell.Tab.0.center" timestamp="1605864389761">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605258330924" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1605258330924">
+    <state width="1493" height="143" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1605864389761" />
+    <state width="1493" height="143" key="GridCell.Tab.0.left" timestamp="1605864389761">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605258330924" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1605258330924">
+    <state width="1493" height="143" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1605864389761" />
+    <state width="1493" height="143" key="GridCell.Tab.0.right" timestamp="1605864389761">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605258330924" />
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1605257105847">
+    <state width="1493" height="143" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1605864389761" />
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1605863961104">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605257105847" />
-    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1605257105847">
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605863961104" />
+    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1605863961104">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1605257105847" />
-    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1605257105847">
+    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1605863961104" />
+    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1605863961104">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1605257105847" />
-    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1605257105847">
+    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1605863961104" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1605863961104">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1605257105847" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1605863961104" />
     <state x="540" y="222" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1605084188699">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="540" y="222" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1536.824@0.0.1536.824" timestamp="1605084188699" />
+    <state x="360" y="23" key="new project wizard" timestamp="1605791007594">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="360" y="23" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1605791007594" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1605195049437">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1605195049437" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1605195597612">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1605856410891">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1605195597612" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1605856410891" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -190,8 +194,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Main.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="16" />
+          <line>7</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/QuadTree.java</url>
+          <line>225</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
