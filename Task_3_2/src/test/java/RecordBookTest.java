@@ -11,20 +11,21 @@ import static org.junit.Assert.*;
 public class RecordBookTest {
     @Test
     public void testMyBook (){
+        RecordBook.Grade G;
         ArrayList<RecordBook.Rec> sem1 = new ArrayList<RecordBook.Rec>();
-        sem1.add(new RecordBook.Rec("Введение в алгебру и анализ", 5));
-        sem1.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem1.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem1.add(new RecordBook.Rec("История", 5));
-        sem1.add(new RecordBook.Rec("Основы культуры речи", 5));
-        sem1.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 5));
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РСЃС‚РѕСЂРёСЏ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РћСЃРЅРѕРІС‹ РєСѓР»СЊС‚СѓСЂС‹ СЂРµС‡Рё", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FIVE));
         ArrayList<RecordBook.Rec> sem2 = new ArrayList<RecordBook.Rec>();
-        sem2.add(new RecordBook.Rec("Введение в алгебру и анализ", 5));
-        sem2.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem2.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem2.add(new RecordBook.Rec("Иностранный язык", 5));
-        sem2.add(new RecordBook.Rec("Цифровые платформы", 5));
-        sem2.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 5));
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРЅРѕСЃС‚СЂР°РЅРЅС‹Р№ СЏР·С‹Рє", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("Р¦РёС„СЂРѕРІС‹Рµ РїР»Р°С‚С„РѕСЂРјС‹", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FIVE));
         RecordBook book = new RecordBook(3);
         book.replaceSemester(1,sem1);
         book.replaceSemester(2,sem2);
@@ -36,24 +37,24 @@ public class RecordBookTest {
     @Test
     public void testBookNotIncreased (){
         ArrayList<RecordBook.Rec> sem1 = new ArrayList<RecordBook.Rec>();
-        sem1.add(new RecordBook.Rec("Введение в алгебру и анализ", 4));
-        sem1.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem1.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem1.add(new RecordBook.Rec("История", 4));
-        sem1.add(new RecordBook.Rec("Основы культуры речи", 5));
-        sem1.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 4));
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FOUR));
+        sem1.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РСЃС‚РѕСЂРёСЏ", RecordBook.Grade.FOUR));
+        sem1.add(new RecordBook.Rec("РћСЃРЅРѕРІС‹ РєСѓР»СЊС‚СѓСЂС‹ СЂРµС‡Рё", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FOUR));
         ArrayList<RecordBook.Rec> sem2 = new ArrayList<RecordBook.Rec>();
-        sem2.add(new RecordBook.Rec("Введение в алгебру и анализ", 5));
-        sem2.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem2.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem2.add(new RecordBook.Rec("Иностранный язык", 4));
-        sem2.add(new RecordBook.Rec("Цифровые платформы", 5));
-        sem2.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 5));
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРЅРѕСЃС‚СЂР°РЅРЅС‹Р№ СЏР·С‹Рє", RecordBook.Grade.FOUR));
+        sem2.add(new RecordBook.Rec("Р¦РёС„СЂРѕРІС‹Рµ РїР»Р°С‚С„РѕСЂРјС‹", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FIVE));
         RecordBook book = new RecordBook(3);
         book.replaceSemester(1,sem1);
         book.replaceSemester(2,sem2);
         doub_eq_assert(1.*(4+5+5+4+5+4+5+5+5+4+5+5)/12, book.avg());
-        //book.addRecordToSemester(1,new RecordBook.Rec("Баннный предмет",3));
+        //book.addRecordToSemester(1,new RecordBook.Rec("Р‘Р°РЅРЅРЅС‹Р№ РїСЂРµРґРјРµС‚",3));
         Assert.assertFalse(book.increasedScholarship());
         Assert.assertTrue(book.isRedDiplomaPossible());
     }
@@ -61,59 +62,61 @@ public class RecordBookTest {
     @Test
     public void testBookNoRedDipl (){
         ArrayList<RecordBook.Rec> sem1 = new ArrayList<RecordBook.Rec>();
-        sem1.add(new RecordBook.Rec("Введение в алгебру и анализ", 4));
-        sem1.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem1.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem1.add(new RecordBook.Rec("История", 4));
-        sem1.add(new RecordBook.Rec("Основы культуры речи", 3));
-        sem1.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 4));
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FOUR));
+        sem1.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РСЃС‚РѕСЂРёСЏ", RecordBook.Grade.FOUR));
+        sem1.add(new RecordBook.Rec("РћСЃРЅРѕРІС‹ РєСѓР»СЊС‚СѓСЂС‹ СЂРµС‡Рё", RecordBook.Grade.THREE));
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FOUR));
         ArrayList<RecordBook.Rec> sem2 = new ArrayList<RecordBook.Rec>();
-        sem2.add(new RecordBook.Rec("Введение в алгебру и анализ", 4));
-        sem2.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem2.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem2.add(new RecordBook.Rec("Иностранный язык", 4));
-        sem2.add(new RecordBook.Rec("Цифровые платформы", 5));
-        sem2.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 5));
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FOUR));
+        sem2.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРЅРѕСЃС‚СЂР°РЅРЅС‹Р№ СЏР·С‹Рє", RecordBook.Grade.FOUR));
+        sem2.add(new RecordBook.Rec("Р¦РёС„СЂРѕРІС‹Рµ РїР»Р°С‚С„РѕСЂРјС‹", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FIVE));
         RecordBook book = new RecordBook(3);
         book.replaceSemester(1,sem1);
         book.replaceSemester(2,sem2);
         doub_eq_assert(1.*(4+5+5+4+3+4+4+5+5+4+5+5)/12, book.avg());
-        //book.addRecordToSemester(1,new RecordBook.Rec("Баннный предмет",3));
+        //book.addRecordToSemester(1,new RecordBook.Rec("Р‘Р°РЅРЅРЅС‹Р№ РїСЂРµРґРјРµС‚",3));
         Assert.assertFalse(book.increasedScholarship());
         Assert.assertFalse(book.isRedDiplomaPossible());
     }
 
-    @Test (expected = IllegalStateException.class)
-    public void testException1 (){
+    @Test
+    public void testAddToSem (){
         ArrayList<RecordBook.Rec> sem1 = new ArrayList<RecordBook.Rec>();
-        sem1.add(new RecordBook.Rec("Введение в алгебру и анализ", 4));
-        sem1.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem1.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem1.add(new RecordBook.Rec("История", 4));
-        sem1.add(new RecordBook.Rec("Основы культуры речи", 3));
-        sem1.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 4));
-        RecordBook book = new RecordBook(5);
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FOUR));
+        sem1.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem1.add(new RecordBook.Rec("РСЃС‚РѕСЂРёСЏ", RecordBook.Grade.FOUR));
+        sem1.add(new RecordBook.Rec("РћСЃРЅРѕРІС‹ РєСѓР»СЊС‚СѓСЂС‹ СЂРµС‡Рё", RecordBook.Grade.THREE));
+        sem1.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FOUR));
+        ArrayList<RecordBook.Rec> sem2 = new ArrayList<RecordBook.Rec>();
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ Р°Р»РіРµР±СЂСѓ Рё Р°РЅР°Р»РёР·", RecordBook.Grade.FOUR));
+        sem2.add(new RecordBook.Rec("Р”РµРєР»Р°СЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРјРїРµСЂР°С‚РёРІРЅРѕРµ РїСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("РРЅРѕСЃС‚СЂР°РЅРЅС‹Р№ СЏР·С‹Рє", RecordBook.Grade.FOUR));
+        sem2.add(new RecordBook.Rec("Р¦РёС„СЂРѕРІС‹Рµ РїР»Р°С‚С„РѕСЂРјС‹", RecordBook.Grade.FIVE));
+        sem2.add(new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РґРёСЃРєСЂРµС‚РЅСѓСЋ РјР°С‚РµРјР°С‚РёРєСѓ Рё РјР°С‚РµРјР°С‚РёС‡РµСЃРєСѓСЋ Р»РѕРіРёРєСѓ", RecordBook.Grade.FIVE));
+        RecordBook book = new RecordBook(4);
         book.replaceSemester(1,sem1);
-        book.avg();
+        book.replaceSemester(2,sem2);
+        doub_eq_assert(1.*(4+5+5+4+3+4+4+5+5+4+5+5)/12, book.avg());
+        book.addRecordToSemester(3,new RecordBook.Rec("РњРѕРґРµР»Рё РІС‹С‡РёСЃР»РµРЅРёР№", RecordBook.Grade.THREE));
+        book.addRecordToSemester(3,new RecordBook.Rec("Р”РЈ Рё РўР¤РљРџ0", RecordBook.Grade.FOUR));
+        doub_eq_assert(1.*(4+5+5+4+3+4+4+5+5+4+5+5+3+4)/14, book.avg());
+        book.addRecordToSemester(3,new RecordBook.Rec("РўР’ Рё РњРЎ", RecordBook.Grade.TWO));
+        book.addRecordToSemester(3,new RecordBook.Rec("РћРїРµСЂР°С†РёРѕРЅРЅС‹Рµ СЃРёСЃС‚РµРјС‹", RecordBook.Grade.THREE));
+        book.addRecordToSemester(3,new RecordBook.Rec("Р’РІРµРґРµРЅРёРµ РІ РР", RecordBook.Grade.FIVE));
+        doub_eq_assert(1.*(4+5+5+4+3+4+4+5+5+4+5+5+3+4+2+3+5)/17, book.avg());
+
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test //(expected = IllegalArgumentException.class)
     public void testException2 (){
         RecordBook book = new RecordBook(-2);
-    }
-
-    @Test (expected = IllegalStateException.class)
-    public void testException3 (){
-        ArrayList<RecordBook.Rec> sem1 = new ArrayList<RecordBook.Rec>();
-        sem1.add(new RecordBook.Rec("Введение в алгебру и анализ", 4));
-        sem1.add(new RecordBook.Rec("Декларативное программирование", 5));
-        sem1.add(new RecordBook.Rec("Императивное программирование", 5));
-        sem1.add(new RecordBook.Rec("История", 4));
-        sem1.add(new RecordBook.Rec("Основы культуры речи", 3));
-        sem1.add(new RecordBook.Rec("Введение в дискретную математику и математическую логику", 4));
-        RecordBook book = new RecordBook(5);
-        book.replaceSemester(1,sem1);
-        book.increasedScholarship();
     }
 
     private void doub_eq_assert (double a, double b){

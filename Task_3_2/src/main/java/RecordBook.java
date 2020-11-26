@@ -2,56 +2,87 @@ import java.util.ArrayList;
 
 public class RecordBook {
     public static class Rec {
-        String disciplineName;
-        int grade;
-        Rec(String name, int grade){
+        private String disciplineName;
+        private Grade grade;
+        Rec(String name, Grade grade){
             disciplineName = name;
             this.grade = grade;
         }
-        int getGrade(){
+
+        /**
+         * Р’РѕР·РІСЂР°С‰Р°РµС‚ РѕС†РµРЅРєСѓ С‚РёРїР° Grade
+         */
+        public Grade getGrade(){
             return grade;
         }
 
     }
 
+    public enum Grade{
+        NONE(0,"0","РЅРѕР»СЊ"),
+        TWO(2,"2", "РЅРµСѓРґРѕРІР»РµС‚РІРѕСЂРёС‚РµР»СЊРЅРѕ"),
+        THREE(3, "3", "СѓРґРѕРІР»РµС‚РІРѕСЂРёС‚РµР»СЊРЅРѕ"),
+        FOUR(4, "4", "С…РѕСЂРѕС€Рѕ"),
+        FIVE(5, "5", "РѕС‚Р»РёС‡РЅРѕ");
+        private final int intVal;
+        private final String strVal;
+        private final String word;
 
-    int currentSemester;  // number of current semester
-    int gradeForQualifyingWork = 0;
-    ArrayList<ArrayList<Rec>> book;
+        Grade(int v, String sv, String w){
+            intVal = v;
+            strVal = sv;
+            word = w;
+        }
+
+        /**
+         * РџРѕР»СѓС‡РёС‚СЊ С†РµР»РѕС‡РёСЃР»РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ РѕС†РµРЅРєРµ
+         */
+        public int getVal(){
+            return intVal;
+        }
+
+        @Override
+        public String toString() {
+            return '\"' + word + '\"';
+        }
+    }
+
+    private final int currentSemester;  // number of current semester
+    private Grade gradeForQualifyingWork = Grade.NONE;
+    private ArrayList<ArrayList<Rec>> book;
 
     /**
-     * Конструктор создания пустой зачётной книжки
-     * @param NumberOfCurrentSemester номер текущего семестра
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃРѕР·РґР°РЅРёСЏ РїСѓСЃС‚РѕР№ Р·Р°С‡С‘С‚РЅРѕР№ РєРЅРёР¶РєРё
+     * @param NumberOfCurrentSemester РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ СЃРµРјРµСЃС‚СЂР° (>=1)
      */
-    RecordBook(int NumberOfCurrentSemester){
+    public RecordBook(int NumberOfCurrentSemester){
+        if (NumberOfCurrentSemester < 1) throw new IllegalArgumentException("РќРѕРјРµСЂ СЃРµРјРµСЃС‚СЂР° РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
         currentSemester = NumberOfCurrentSemester;
         book = new ArrayList<ArrayList<Rec>>(NumberOfCurrentSemester);
         for (int i = 0; i<NumberOfCurrentSemester-1; i++){
-            book.add(null);                   // needed for correct work of replaceSemester method
+            book.add(new ArrayList<Rec>());                   // needed for correct work of replaceSemester method
         }
     }
 
     /**
-     * Конструктор создания зачётной книжки по списку семестров
-     * @param NumberOfCurrentSemester номер текущего семестра (>=1)
-     * @param book список семестров
-     * @throws IllegalArgumentException в случае, если передан некорректный номер текщего семестра
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃРѕР·РґР°РЅРёСЏ Р·Р°С‡С‘С‚РЅРѕР№ РєРЅРёР¶РєРё РїРѕ СЃРїРёСЃРєСѓ СЃРµРјРµСЃС‚СЂРѕРІ
+     * @param NumberOfCurrentSemester РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ СЃРµРјРµСЃС‚СЂР° (>=1)
+     * @param book СЃРїРёСЃРѕРє СЃРµРјРµСЃС‚СЂРѕРІ
      */
-    RecordBook(int NumberOfCurrentSemester, ArrayList<ArrayList<Rec>> book) throws IllegalArgumentException{
-        if (NumberOfCurrentSemester < 1) throw new IllegalArgumentException("Номер семестра должен быть >= 0");
+    public RecordBook(int NumberOfCurrentSemester, ArrayList<ArrayList<Rec>> book){
+        if (NumberOfCurrentSemester < 1) throw new IllegalArgumentException("РќРѕРјРµСЂ СЃРµРјРµСЃС‚СЂР° РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
         currentSemester = NumberOfCurrentSemester;
         this.book = book;
     }
 
     /**
-     * Конструктор создания зачётной книжки по списку семестров вместе с оценкой за дипломную работу
-     * @param NumberOfCurrentSemester номер текущего семестра (>=1)
-     * @param book список семестров
-     * @param qualifyingWork оценка за дипломную работу
-     * @throws IllegalArgumentException в случае, если передан некорректный номер текщего семестра
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃРѕР·РґР°РЅРёСЏ Р·Р°С‡С‘С‚РЅРѕР№ РєРЅРёР¶РєРё РїРѕ СЃРїРёСЃРєСѓ СЃРµРјРµСЃС‚СЂРѕРІ РІРјРµСЃС‚Рµ СЃ РѕС†РµРЅРєРѕР№ Р·Р° РґРёРїР»РѕРјРЅСѓСЋ СЂР°Р±РѕС‚Сѓ
+     * @param NumberOfCurrentSemester РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ СЃРµРјРµСЃС‚СЂР° (>=1)
+     * @param book СЃРїРёСЃРѕРє СЃРµРјРµСЃС‚СЂРѕРІ
+     * @param qualifyingWork РѕС†РµРЅРєР° Р·Р° РґРёРїР»РѕРјРЅСѓСЋ СЂР°Р±РѕС‚Сѓ
      */
-    RecordBook(int NumberOfCurrentSemester, ArrayList<ArrayList<Rec>> book, int qualifyingWork) throws IllegalArgumentException{
-        if (NumberOfCurrentSemester < 1) throw new IllegalArgumentException("Номер семестра должен быть >= 0");
+    public RecordBook(int NumberOfCurrentSemester, ArrayList<ArrayList<Rec>> book, Grade qualifyingWork){
+        if (NumberOfCurrentSemester < 1) throw new IllegalArgumentException("РќРѕРјРµСЂ СЃРµРјРµСЃС‚СЂР° РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
         currentSemester = NumberOfCurrentSemester;
         gradeForQualifyingWork = qualifyingWork;
         this.book = book;
@@ -59,64 +90,61 @@ public class RecordBook {
 
 
     /**
-     * Установка оценки за дипломную работу
-     * @param grade оценка за дипломную работу [2;5]
-     * @throws IllegalArgumentException в случае, если передана некорректная оценка
+     * РЈСЃС‚Р°РЅРѕРІРєР° РѕС†РµРЅРєРё Р·Р° РґРёРїР»РѕРјРЅСѓСЋ СЂР°Р±РѕС‚Сѓ
+     * @param grade РѕС†РµРЅРєР° Р·Р° РґРёРїР»РѕРјРЅСѓСЋ СЂР°Р±РѕС‚Сѓ [2;5]
      */
-    void setGradeForQualifyingWork (int grade) throws IllegalArgumentException{
-        if(grade<2 || grade>5) throw new IllegalArgumentException("Оценка дожна находиться в пределах от 2 до 5");
+    public void setGradeForQualifyingWork (Grade grade){
+        if(grade!=Grade.NONE) throw new IllegalArgumentException("РћС†РµРЅРєР° РґРѕР¶РЅР° РЅР°С…РѕРґРёС‚СЊСЃСЏ РІ РїСЂРµРґРµР»Р°С… РѕС‚ 2 РґРѕ 5");
         gradeForQualifyingWork = grade;
     }
 
 
     /**
-     * заменить семестр на переданный
-     * @param semesterNumber номер заменяемого семестра
-     * @param page семестр, состоящий из Rec записей об оценках
+     * Р·Р°РјРµРЅРёС‚СЊ СЃРµРјРµСЃС‚СЂ РЅР° РїРµСЂРµРґР°РЅРЅС‹Р№
+     * @param semesterNumber РЅРѕРјРµСЂ Р·Р°РјРµРЅСЏРµРјРѕРіРѕ СЃРµРјРµСЃС‚СЂР° (>=1)
+     * @param page СЃРµРјРµСЃС‚СЂ, СЃРѕСЃС‚РѕСЏС‰РёР№ РёР· Rec Р·Р°РїРёСЃРµР№ РѕР± РѕС†РµРЅРєР°С…
      */
-    void replaceSemester(int semesterNumber, ArrayList<Rec> page){
+    public void replaceSemester(int semesterNumber, ArrayList<Rec> page){
+        if (semesterNumber<1) throw new IllegalArgumentException("РќРѕРјРµСЂ СЃРµРјРµСЃС‚СЂР° РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РЅСѓР»СЏ");
         book.set(semesterNumber-1,page);
     }
 
     /**
-     * Добавить к существующему семестру запсиь
-     * @param numSemester номер изменяемого семестра
-     * @param record запись
-     * @throws IllegalArgumentException если передан некорректный номер изменяемого семестра
+     * Р”РѕР±Р°РІРёС‚СЊ Рє СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ СЃРµРјРµСЃС‚СЂСѓ Р·Р°РїСЃРёСЊ
+     * @param numSemester РЅРѕРјРµСЂ РёР·РјРµРЅСЏРµРјРѕРіРѕ СЃРµРјРµСЃС‚СЂР° (>=1)
+     * @param record Р·Р°РїРёСЃСЊ
      */
-    void addRecordToSemester(int numSemester, Rec record) throws IllegalArgumentException, IllegalStateException{
-        if (numSemester<1) throw new IllegalArgumentException("Номер семестра должен быть >= 0");
+    public void addRecordToSemester(int numSemester, Rec record) {
+        if (numSemester<1) throw new IllegalArgumentException("РќРѕРјРµСЂ СЃРµРјРµСЃС‚СЂР° РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
         book.get(numSemester-1).add(record);
     }
 
     /**
-     * текущий средний балл за все время обучения
-     * @return средний балл
-     * @throws IllegalStateException если не хватает семестровых страниц
+     * С‚РµРєСѓС‰РёР№ СЃСЂРµРґРЅРёР№ Р±Р°Р»Р» Р·Р° РІСЃРµ РІСЂРµРјСЏ РѕР±СѓС‡РµРЅРёСЏ
+     * @return СЃСЂРµРґРЅРёР№ Р±Р°Р»Р»
      */
-    double avg  () throws IllegalStateException {
+    public double avg  () {
         int sum = 0;
         int cnt = 0;
         for(int i = 0; i<currentSemester-1; i++){
-            if (book.get(i)==null) throw new IllegalStateException("В зачётной книжке не хватает страницы за "+ (i+1) +" семестр");
+            if (book.get(i)==null) throw new IllegalStateException("Р’ Р·Р°С‡С‘С‚РЅРѕР№ РєРЅРёР¶РєРµ РЅРµ С…РІР°С‚Р°РµС‚ СЃС‚СЂР°РЅРёС†С‹ Р·Р° "+ (i+1) +" СЃРµРјРµСЃС‚СЂ");
             cnt += book.get(i).size();
-            sum += book.get(i).stream().mapToInt(Rec::getGrade).sum();
+            sum += book.get(i).stream().mapToInt(x -> x.getGrade().getVal()).sum();
         }
         return 1.0 * sum/cnt;
     }
 
     /**
-     * может ли студент получить «красный» диплом с отличием
-     * @return true - если студент может получить «красный» диплом с отличием, false - иначе
-     * @throws IllegalStateException если не хватает семестровых страниц
+     * РјРѕР¶РµС‚ Р»Рё СЃС‚СѓРґРµРЅС‚ РїРѕР»СѓС‡РёС‚СЊ В«РєСЂР°СЃРЅС‹Р№В» РґРёРїР»РѕРј СЃ РѕС‚Р»РёС‡РёРµРј
+     * @return true - РµСЃР»Рё СЃС‚СѓРґРµРЅС‚ РјРѕР¶РµС‚ РїРѕР»СѓС‡РёС‚СЊ В«РєСЂР°СЃРЅС‹Р№В» РґРёРїР»РѕРј СЃ РѕС‚Р»РёС‡РёРµРј, false - РёРЅР°С‡Рµ
      */
-    boolean isRedDiplomaPossible () throws IllegalStateException{
-        if ((gradeForQualifyingWork!=0)&&(gradeForQualifyingWork!=5)) return false;
+    public boolean isRedDiplomaPossible () {
+        if ((gradeForQualifyingWork!=Grade.NONE)&&(gradeForQualifyingWork!=Grade.FIVE)) return false;
         ArrayList<Rec> lastGrades = new ArrayList<Rec>();
         for(ArrayList<Rec> sem : book){
-            if (sem==null) throw new IllegalStateException("В зачётной книжке не хватает страницы за семестр");
+            if (sem==null) throw new IllegalStateException("Р’ Р·Р°С‡С‘С‚РЅРѕР№ РєРЅРёР¶РєРµ РЅРµ С…РІР°С‚Р°РµС‚ СЃС‚СЂР°РЅРёС†С‹ Р·Р° СЃРµРјРµСЃС‚СЂ");
             for(Rec r : sem){
-                if (r.getGrade()<=3) return false;
+                if (r.getGrade().getVal()<=3) return false;
                 boolean fl = true;
                 for(Rec last : lastGrades){
                     if (last.disciplineName.equals(r.disciplineName)){
@@ -131,22 +159,22 @@ public class RecordBook {
         double cnt = 0, sum = 0;
         for(Rec r : lastGrades){
             cnt++;
-            sum += r.getGrade();
+            sum += r.getGrade().getVal();
         }
         return ((1.0 * sum/cnt) >= 4.75);
     }
 
     /**
-     * будет ли повышенная стипендия в этом семестре
-     * @return true - если буде повышенная стипендия, false - иначе
-     * @throws IllegalStateException если не хватает семестровых страниц
+     * Р±СѓРґРµС‚ Р»Рё РїРѕРІС‹С€РµРЅРЅР°СЏ СЃС‚РёРїРµРЅРґРёСЏ РІ СЌС‚РѕРј СЃРµРјРµСЃС‚СЂРµ
+     * @return true - РµСЃР»Рё Р±СѓРґРµ РїРѕРІС‹С€РµРЅРЅР°СЏ СЃС‚РёРїРµРЅРґРёСЏ, false - РёРЅР°С‡Рµ
      */
-    boolean increasedScholarship() throws IllegalStateException{
-        ArrayList<Rec> sem;
-        if ((currentSemester==1)||(sem = book.get(currentSemester-2)) == null) throw new IllegalStateException("В зачётной книжке нет предыдущего семестра");
+    public boolean increasedScholarship() {
+        ArrayList<Rec> sem = book.get(currentSemester-2);
+        if ((currentSemester==1)|| sem == null) throw new IllegalStateException("Р’ Р·Р°С‡С‘С‚РЅРѕР№ РєРЅРёР¶РєРµ РЅРµС‚ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРµРјРµСЃС‚СЂР°");
+        if (sem.size()==0) throw new IllegalStateException("Р’ Р·Р°С‡С‘С‚РЅРѕР№ РєРЅРёР¶РєРµ РЅРµС‚ Р·Р°РїРёСЃРµР№ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЃРµРјРµСЃС‚СЂР°");
         boolean flag = true;
         for (Rec r : sem){
-            if (r.getGrade() != 5) {
+            if (r.getGrade() != Grade.FIVE) {
                 flag = false;
                 break;
             }
