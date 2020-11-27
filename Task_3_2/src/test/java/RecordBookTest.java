@@ -111,10 +111,17 @@ public class RecordBookTest {
         book.addRecordToSemester(3,new RecordBook.Rec("Операционные системы", RecordBook.Grade.THREE));
         book.addRecordToSemester(3,new RecordBook.Rec("Введение в ИИ", RecordBook.Grade.FIVE));
         doub_eq_assert(1.*(4+5+5+4+3+4+4+5+5+4+5+5+3+4+2+3+5)/17, book.avg());
-
+        book.setGradeForQualifyingWork(RecordBook.Grade.FIVE);
     }
 
-    @Test //(expected = IllegalArgumentException.class)
+    @Test (expected = IllegalArgumentException.class)
+    public void testException1 (){
+        RecordBook book = new RecordBook(1);
+        book.setGradeForQualifyingWork(RecordBook.Grade.NONE);
+    }
+
+
+    @Test (expected = IllegalArgumentException.class)
     public void testException2 (){
         RecordBook book = new RecordBook(-2);
     }

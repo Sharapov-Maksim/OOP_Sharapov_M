@@ -2,9 +2,17 @@ import java.util.ArrayList;
 
 public class RecordBook {
     public static class Rec {
-        private String disciplineName;
+        private final String disciplineName;
         private Grade grade;
-        Rec(String name, Grade grade){
+
+        /**
+         * Конструктор класса Rec
+         * @param name Название предмета
+         * @param grade Оценка по предмету. Допустимые значения: TWO, THREE, FOUR, FIVE
+         */
+        public Rec(String name, Grade grade){
+            if (grade == null) throw new IllegalArgumentException("оценка grade должна быть != null");
+            if (grade == Grade.NONE) throw new IllegalArgumentException("оценка grade должна быть от 2 до 5");
             disciplineName = name;
             this.grade = grade;
         }
@@ -49,7 +57,7 @@ public class RecordBook {
 
     private final int currentSemester;  // number of current semester
     private Grade gradeForQualifyingWork = Grade.NONE;
-    private ArrayList<ArrayList<Rec>> book;
+    private final ArrayList<ArrayList<Rec>> book;
 
     /**
      * Конструктор создания пустой зачётной книжки
@@ -67,11 +75,12 @@ public class RecordBook {
     /**
      * Конструктор создания зачётной книжки по списку семестров
      * @param NumberOfCurrentSemester номер текущего семестра (>=1)
-     * @param book список семестров
+     * @param book список семестров (!= null)
      */
     public RecordBook(int NumberOfCurrentSemester, ArrayList<ArrayList<Rec>> book){
         if (NumberOfCurrentSemester < 1) throw new IllegalArgumentException("Номер семестра должен быть больше 0");
-        currentSemester = NumberOfCurrentSemester;
+        if (book==null) throw new IllegalArgumentException("book должен быть != null");
+        this.currentSemester = NumberOfCurrentSemester;
         this.book = book;
     }
 
@@ -83,8 +92,10 @@ public class RecordBook {
      */
     public RecordBook(int NumberOfCurrentSemester, ArrayList<ArrayList<Rec>> book, Grade qualifyingWork){
         if (NumberOfCurrentSemester < 1) throw new IllegalArgumentException("Номер семестра должен быть больше 0");
-        currentSemester = NumberOfCurrentSemester;
-        gradeForQualifyingWork = qualifyingWork;
+        if (book==null) throw new IllegalArgumentException("book должен быть != null");
+        if (qualifyingWork == null) throw new IllegalArgumentException("оценка qualifyingWork должна быть != null");
+        this.currentSemester = NumberOfCurrentSemester;
+        this.gradeForQualifyingWork = qualifyingWork;
         this.book = book;
     }
 
@@ -94,7 +105,7 @@ public class RecordBook {
      * @param grade оценка за дипломную работу [2;5]
      */
     public void setGradeForQualifyingWork (Grade grade){
-        if(grade!=Grade.NONE) throw new IllegalArgumentException("Оценка дожна находиться в пределах от 2 до 5");
+        if(grade==Grade.NONE) throw new IllegalArgumentException("Оценка дожна находиться в пределах от 2 до 5");
         gradeForQualifyingWork = grade;
     }
 
@@ -102,20 +113,22 @@ public class RecordBook {
     /**
      * заменить семестр на переданный
      * @param semesterNumber номер заменяемого семестра (>=1)
-     * @param page семестр, состоящий из Rec записей об оценках
+     * @param page семестр, состоящий из Rec записей об оценках (!=null)
      */
     public void replaceSemester(int semesterNumber, ArrayList<Rec> page){
         if (semesterNumber<1) throw new IllegalArgumentException("Номер семестра должен быть больше нуля");
+        if (page==null) throw new IllegalArgumentException("аргумент page должен быть != null");
         book.set(semesterNumber-1,page);
     }
 
     /**
      * Добавить к существующему семестру запсиь
      * @param numSemester номер изменяемого семестра (>=1)
-     * @param record запись
+     * @param record запись (!=null)
      */
     public void addRecordToSemester(int numSemester, Rec record) {
         if (numSemester<1) throw new IllegalArgumentException("Номер семестра должен быть больше 0");
+        if (record == null) throw new IllegalArgumentException("аргумент record должен быть != null");
         book.get(numSemester-1).add(record);
     }
 
@@ -131,6 +144,7 @@ public class RecordBook {
             cnt += book.get(i).size();
             sum += book.get(i).stream().mapToInt(x -> x.getGrade().getVal()).sum();
         }
+        if(cnt==0) throw new IllegalStateException("В зачётной книжке нет ни одной записи");
         return 1.0 * sum/cnt;
     }
 
@@ -161,6 +175,7 @@ public class RecordBook {
             cnt++;
             sum += r.getGrade().getVal();
         }
+        if(cnt==0) throw new IllegalStateException("В зачётной книжке нет ни одной записи");
         return ((1.0 * sum/cnt) >= 4.75);
     }
 
