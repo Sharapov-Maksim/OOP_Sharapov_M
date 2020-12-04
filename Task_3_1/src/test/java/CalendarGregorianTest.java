@@ -6,9 +6,9 @@ public class CalendarGregorianTest {
 
     @Test
     public void testCalendar1() {
-        CalendarGregorian.DATE d1 = new CalendarGregorian.DATE(1,1,2021);
+        CalendarGregorian.Date d1 = new CalendarGregorian.Date(1,1,2021);
         CalendarGregorian calendar1 = new CalendarGregorian(d1);
-        CalendarGregorian.DATE d2 = new CalendarGregorian.DATE(15,3,2021);
+        CalendarGregorian.Date d2 = new CalendarGregorian.Date(15,3,2021);
         calendar1.addDays(14);
         calendar1.addMonth();
         calendar1.addMonth();
@@ -20,15 +20,15 @@ public class CalendarGregorianTest {
         d2.changeYear(2020);
         d2.changeMonths(11);
         assertEqDates(d2, calendar1.getDate());
-        CalendarGregorian.DATE d3 = new CalendarGregorian.DATE(12, CalendarGregorian.MONTH.JULY,2020);
+        CalendarGregorian.Date d3 = new CalendarGregorian.Date(12, CalendarGregorian.Month.JULY,2020);
         CalendarGregorian calendar2 = new CalendarGregorian(d3);
-        d3.changeMonths(CalendarGregorian.MONTH.JUNE);    // shouldn`t affect on calendar
+        d3.changeMonths(CalendarGregorian.Month.JUNE);    // shouldn`t affect on calendar
         assertEquals(CalendarGregorian.DAY_OF_WEEK.SUNDAY, calendar2.getDayWeek());
     }
 
     @Test
     public void testCalendar2() {
-        CalendarGregorian.DATE date = new CalendarGregorian.DATE(15, CalendarGregorian.MONTH.OCTOBER, 1582);
+        CalendarGregorian.Date date = new CalendarGregorian.Date(15, CalendarGregorian.Month.OCTOBER, 1582);
         CalendarGregorian calendar = new CalendarGregorian(date);
         assertEquals(CalendarGregorian.DAY_OF_WEEK.FRIDAY, calendar.getDayWeek());
         calendar.addYear();
@@ -41,9 +41,9 @@ public class CalendarGregorianTest {
         assertEquals(1579,calendar.getYear());
     }
 
-    void assertEqDates(CalendarGregorian.DATE d1, CalendarGregorian.DATE d2){
-        assertEquals(d1.getDAY(), d2.getDAY());
-        assertEquals(d1.getMONTH(), d2.getMONTH());
-        assertEquals(d1.getYEAR(), d2.getYEAR());
+    void assertEqDates(CalendarGregorian.Date d1, CalendarGregorian.Date d2){
+        assertEquals(d1.getDay(), d2.getDay());
+        assertEquals(d1.getMonth(), d2.getMonth());
+        assertEquals(d1.getYear(), d2.getYear());
     }
 }

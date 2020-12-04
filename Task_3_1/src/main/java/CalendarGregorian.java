@@ -1,135 +1,135 @@
 public class CalendarGregorian {
     /**
-     * Класс, имплементирующий дату
+     * Класс, реализующий дату
      */
-    public static class DATE{
-        private int DAY_OF_MONTH;
-        private MONTH MONTH_OF_YEAR;
-        private int YEAR;
+    public static class Date {
+        private int dayOfMonth;
+        private Month monthOfYear;
+        private int year;
 
         /**
          * Конструктор даты
-         * @param DD день, целое число >0
-         * @param MM порядковый номер месяца, целое число >0
-         * @param YYYY год, целое число >0
+         * @param day день, целое число >0
+         * @param month порядковый номер месяца, целое число >0
+         * @param year год, целое число >0
          */
-        public DATE (int DD, int MM, int YYYY){
-            if ((DD<1)||(DD>31)||(MM<1)||(MM>12)||(YYYY<1)) throw new IllegalArgumentException("Неверный формат даты");
-            MONTH[] months = MONTH.values();
+        public Date(int day, int month, int year){
+            if ((day <1)||(day >31)||(month <1)||(month >12)||(year <1)) throw new IllegalArgumentException("Неверный формат даты");
+            Month[] months = Month.values();
 
-            this.MONTH_OF_YEAR = months[MM-1];
-            if (MONTH_OF_YEAR!=MONTH.FEBRUARY){
-                if (DD>MONTH_OF_YEAR.getDAYS_IN_MONTH()) throw new IllegalArgumentException("В этом месяце нет такого дня");
+            this.monthOfYear = months[month -1];
+            if (monthOfYear != Month.FEBRUARY){
+                if (day > monthOfYear.getDaysInMonth()) throw new IllegalArgumentException("В этом месяце нет такого дня");
             }
             else {
-                if (isLEAP(YYYY) && (DD>29)) throw new IllegalArgumentException("В этом месяце нет такого дня");
-                if (!isLEAP(YYYY) && (DD>28)) throw new IllegalArgumentException("В этом месяце нет такого дня");
+                if (isLeap(year) && (day >29)) throw new IllegalArgumentException("В этом месяце нет такого дня");
+                if (!isLeap(year) && (day >28)) throw new IllegalArgumentException("В этом месяце нет такого дня");
             }
-            this.DAY_OF_MONTH = DD;
-            this.YEAR = YYYY;
+            this.dayOfMonth = day;
+            this.year = year;
         }
         /**
          * Аналог предыдущего конструктора даты
-         * @param DD день, целое число >0
-         * @param MM месяц, элемент перечисления MONTH
-         * @param YYYY год, целое число >0
+         * @param day день, целое число >0
+         * @param month месяц, элемент перечисления Month
+         * @param year год, целое число >0
          */
-        public DATE (int DD, MONTH MM, int YYYY){
-            if ((DD<1)||(DD>31)||(YYYY<1)) throw new IllegalArgumentException("Неверный формат даты");
-            this.MONTH_OF_YEAR = MM;
-            if (MONTH_OF_YEAR!=MONTH.FEBRUARY){
-                if (DD>MONTH_OF_YEAR.getDAYS_IN_MONTH()) throw new IllegalArgumentException("В этом месяце нет такого дня");
+        public Date(int day, Month month, int year){
+            if ((day <1)||(day >31)||(year <1)) throw new IllegalArgumentException("Неверный формат даты");
+            this.monthOfYear = month;
+            if (monthOfYear != Month.FEBRUARY){
+                if (day > monthOfYear.getDaysInMonth()) throw new IllegalArgumentException("В этом месяце нет такого дня");
             }
             else {
-                if (isLEAP(YYYY) && (DD>29)) throw new IllegalArgumentException("В этом месяце нет такого дня");
-                if (!isLEAP(YYYY) && (DD>28)) throw new IllegalArgumentException("В этом месяце нет такого дня");
+                if (isLeap(year) && (day >29)) throw new IllegalArgumentException("В этом месяце нет такого дня");
+                if (!isLeap(year) && (day >28)) throw new IllegalArgumentException("В этом месяце нет такого дня");
             }
-            this.DAY_OF_MONTH = DD;
-            this.YEAR = YYYY;
+            this.dayOfMonth = day;
+            this.year = year;
         }
 
         /**
          * Получить день из даты
          * @return номер дня месяца, целое число >0
          */
-        public int getDAY(){return DAY_OF_MONTH;}
+        public int getDay(){return dayOfMonth;}
 
         /**
          * Получить месяц из даты
-         * @return месяц, элемент перечисления MONTH
+         * @return месяц, элемент перечисления Month
          */
-        public MONTH getMONTH(){return MONTH_OF_YEAR;}
+        public Month getMonth(){return monthOfYear;}
 
         /**
          * Получить месяц из даты
          * @return номер месяца, целое число >0
          */
-        public int getMONTH_NUMBER(){return MONTH_OF_YEAR.ordinal()+1;}
+        public int getMonthNumber(){return monthOfYear.ordinal()+1;}
 
         /**
          * Получить год из даты
          * @return год, целое число >0
          */
-        public int getYEAR(){return YEAR;}
+        public int getYear(){return year;}
 
         /**
          * Изменить день в дате
-         * @param DD номер дня в месяце (>0)
+         * @param day номер дня в месяце (>0)
          */
-        public void changeDAY(int DD){
-            if ((DD<1)||(DD>MONTH_OF_YEAR.getDAYS_IN_MONTH())) throw new IllegalArgumentException("В этом месяце нет такого дня");
-            this.DAY_OF_MONTH = DD;
+        public void changeDay(int day){
+            if ((day <1)||(day > monthOfYear.getDaysInMonth())) throw new IllegalArgumentException("В этом месяце нет такого дня");
+            this.dayOfMonth = day;
         }
 
         /**
          * Изменить месяц в дате
-         * @param MM номер месяца в году [1;12]
+         * @param month номер месяца в году [1;12]
          */
-        public void changeMonths(int MM){
-            if ((MM<1)||(MM>12)) throw new IllegalArgumentException("В Григорианском календаре только 12 месяцев");
-            MONTH[] m = MONTH.values();
-            this.MONTH_OF_YEAR = m[MM-1];
+        public void changeMonths(int month){
+            if ((month <1)||(month >12)) throw new IllegalArgumentException("В Григорианском календаре только 12 месяцев");
+            Month[] m = Month.values();
+            this.monthOfYear = m[month -1];
         }
 
         /**
          * Изменить месяц в дате
-         * @param MM месяц из перечисления MONTH
+         * @param month месяц из перечисления Month
          */
-        public void changeMonths(MONTH MM){
-            if(MM == null) throw new IllegalArgumentException("Передан null в качестве месяца");
-            this.MONTH_OF_YEAR = MM;
+        public void changeMonths(Month month){
+            if(month == null) throw new IllegalArgumentException("Передан null в качестве месяца");
+            this.monthOfYear = month;
         }
 
         /**
          * Изменить год в дате
-         * @param YYYY год (>0)
+         * @param year год (>0)
          */
-        public void changeYear(int YYYY){
-            if ((YYYY<1)) throw new IllegalArgumentException("Год до нашей эры");
-            this.YEAR = YYYY;
+        public void changeYear(int year){
+            if ((year <1)) throw new IllegalArgumentException("Год до нашей эры");
+            this.year = year;
         }
 
         @Override
         public String toString() {
-            String s = switch (DAY_OF_MONTH){
+            String s = switch (dayOfMonth){
                 case 1 -> "st";
                 case 2 -> "nd";
                 case 3 -> "rd";
                 default -> "th";
             };
-            return DAY_OF_MONTH + s +" of " + MONTH_OF_YEAR +", " + YEAR + " year";
+            return dayOfMonth + s +" of " + monthOfYear +", " + year + " year";
         }
     }
 
     /**
      * Перечисление месяцев
      */
-    public enum MONTH{
+    public enum Month {
         JANUARY(31),FEBRUARY(28),MARCH(31),APRIL(30),MAY(31),JUNE(30),
         JULY(31),AUGUST(31),SEPTEMBER(30),OCTOBER(31),NOVEMBER(30),DECEMBER(31);
 
         int DAYS_IN_MONTH;
-        MONTH (int D){
+        Month(int D){
             DAYS_IN_MONTH = D;
         }
 
@@ -137,7 +137,7 @@ public class CalendarGregorian {
          * Получить количество дней в месяце (в Феврале будет возвращаться 28)
          * @return количество дней в месяце
          */
-        int getDAYS_IN_MONTH(){
+        int getDaysInMonth(){
             return DAYS_IN_MONTH;
         }
 
@@ -174,16 +174,16 @@ public class CalendarGregorian {
     }
 
     private int dayOfEra;
-    private DATE currentDate;
+    private Date currentDate;
 
     /**
      * Конструктор календаря
      * @param date дата, котрую календарь будет хранить и считать текущей датой
      */
-    public CalendarGregorian(DATE date){
+    public CalendarGregorian(Date date){
         if (date == null) throw new IllegalArgumentException("Аргумент date дожен быть != null");
-        this.dayOfEra = toDays(date.getDAY(),date.getMONTH_NUMBER(),date.getYEAR());
-        this.currentDate = new DATE(date.getDAY(),date.getMONTH(),date.getYEAR());
+        this.dayOfEra = toDays(date.getDay(),date.getMonthNumber(),date.getYear());
+        this.currentDate = new Date(date.getDay(),date.getMonth(),date.getYear());
     }
 
     /**
@@ -191,16 +191,16 @@ public class CalendarGregorian {
      * @return текущий день из даты
      */
     public int getDayOfMonth(){
-        return currentDate.getDAY();
+        return currentDate.getDay();
     }
 
     /**
      * Получить месяц из даты, записанной в каленаре
-     * @return текущий месяц из даты, представленный в типе перечисления MONTH,
-     *         чтобы получить номер этого месяца, используйте getMONTH_NUMBER на полученном месяце
+     * @return текущий месяц из даты, представленный в типе перечисления Month,
+     *         чтобы получить номер этого месяца, используйте getMonthNumber на полученном месяце
      */
-    public MONTH getMonth(){
-        return currentDate.getMONTH();
+    public Month getMonth(){
+        return currentDate.getMonth();
     }
 
     /**
@@ -208,15 +208,15 @@ public class CalendarGregorian {
      * @return текущий год из даты
      */
     public int getYear(){
-        return currentDate.getYEAR();
+        return currentDate.getYear();
     }
 
     /**
      * Получить текущую дату, записанную в календаре
-     * @return !копия! текущей даты, записанной в календаре, типа DATE
+     * @return !копия! текущей даты, записанной в календаре, типа Date
      */
-    public DATE getDate(){
-        return new DATE(currentDate.getDAY(),currentDate.getMONTH(),currentDate.getYEAR());
+    public Date getDate(){
+        return new Date(currentDate.getDay(),currentDate.getMonth(),currentDate.getYear());
     }
 
     /**
@@ -243,15 +243,15 @@ public class CalendarGregorian {
      * добавить один месяц к дате
      */
     public void addMonth(){
-        MONTH[] m = MONTH.values();
-        if(currentDate.getMONTH_NUMBER()!=12){
-            this.currentDate.changeMonths(currentDate.getMONTH_NUMBER()+1);
-            this.dayOfEra = toDays(currentDate.getDAY(),currentDate.getMONTH_NUMBER(),currentDate.getYEAR());
+        Month[] m = Month.values();
+        if(currentDate.getMonthNumber()!=12){
+            this.currentDate.changeMonths(currentDate.getMonthNumber()+1);
+            this.dayOfEra = toDays(currentDate.getDay(),currentDate.getMonthNumber(),currentDate.getYear());
         }
         else {
             this.currentDate.changeMonths(1);
-            this.currentDate.changeYear(currentDate.YEAR+1);
-            this.dayOfEra = toDays(currentDate.getDAY(),currentDate.getMONTH_NUMBER(),currentDate.getYEAR());
+            this.currentDate.changeYear(currentDate.year +1);
+            this.dayOfEra = toDays(currentDate.getDay(),currentDate.getMonthNumber(),currentDate.getYear());
         }
     }
 
@@ -259,8 +259,8 @@ public class CalendarGregorian {
      * добавить 1 год к дате
      */
     public void addYear(){
-        this.currentDate.changeYear(currentDate.getYEAR()+1);
-        this.dayOfEra = toDays(currentDate.getDAY(),currentDate.getMONTH_NUMBER(),currentDate.getYEAR());
+        this.currentDate.changeYear(currentDate.getYear()+1);
+        this.dayOfEra = toDays(currentDate.getDay(),currentDate.getMonthNumber(),currentDate.getYear());
     }
 
     /**
@@ -279,15 +279,15 @@ public class CalendarGregorian {
      * вычесть один месяц из даты
      */
     public void subMonth(){
-        MONTH[] m = MONTH.values();
-        if(currentDate.getMONTH_NUMBER()!=1){
-            this.currentDate.changeMonths(currentDate.getMONTH_NUMBER()-1);
-            this.dayOfEra = toDays(currentDate.getDAY(),currentDate.getMONTH_NUMBER(),currentDate.getYEAR());
+        Month[] m = Month.values();
+        if(currentDate.getMonthNumber()!=1){
+            this.currentDate.changeMonths(currentDate.getMonthNumber()-1);
+            this.dayOfEra = toDays(currentDate.getDay(),currentDate.getMonthNumber(),currentDate.getYear());
         }
         else {
             this.currentDate.changeMonths(12);
-            this.currentDate.changeYear(currentDate.YEAR-1);
-            this.dayOfEra = toDays(currentDate.getDAY(),currentDate.getMONTH_NUMBER(),currentDate.getYEAR());
+            this.currentDate.changeYear(currentDate.year -1);
+            this.dayOfEra = toDays(currentDate.getDay(),currentDate.getMonthNumber(),currentDate.getYear());
         }
     }
 
@@ -295,8 +295,8 @@ public class CalendarGregorian {
      * вычесть один год из даты
      */
     public void subYear(){
-        this.currentDate.changeYear(currentDate.getYEAR()-1);
-        dayOfEra = toDays(currentDate.getDAY(),currentDate.getMONTH_NUMBER(),currentDate.getYEAR());
+        this.currentDate.changeYear(currentDate.getYear()-1);
+        dayOfEra = toDays(currentDate.getDay(),currentDate.getMonthNumber(),currentDate.getYear());
     }
 
 
@@ -305,9 +305,9 @@ public class CalendarGregorian {
      * @param x дата, с которой будет сравниваться текущая дата
      * @return разница в днях между датами
      */
-    public int difDate(DATE x){
+    public int difDate(Date x){
         if(x == null) throw new IllegalArgumentException("Дата x должна быть != null");
-        int dayX = toDays(x.getDAY(), x.getMONTH_NUMBER(), x.getYEAR());
+        int dayX = toDays(x.getDay(), x.getMonthNumber(), x.getYear());
         if (dayX<dayOfEra) return dayOfEra-dayX;
         else return dayX-dayOfEra;
     }
@@ -317,9 +317,9 @@ public class CalendarGregorian {
      * @param x дата, с которой будет сравниваться текущая дата
      * @return разница между датами
      */
-    public DATE difDateInDDMMYYYYformat(DATE x){
+    public Date difDateInFormat(Date x){
         if(x == null) throw new IllegalArgumentException("Дата x должна быть != null");
-        int dayX = toDays(x.getDAY(), x.getMONTH_NUMBER(), x.getYEAR());
+        int dayX = toDays(x.getDay(), x.getMonthNumber(), x.getYear());
         int dayY;
         if (dayX < dayOfEra) dayY = dayOfEra;
         else {
@@ -330,7 +330,7 @@ public class CalendarGregorian {
         return toDate(cntDays);
     }
 
-    private int toDays(int day_of_month, int month, int year){
+    private int toDays(int dayOfMonth, int month, int year){
         int tmp = year;
         int daysCnt = 0;
         year--;
@@ -340,58 +340,56 @@ public class CalendarGregorian {
         daysCnt+=year/100 * 24;
         year %=100;
         daysCnt+=year/4;
-        //if(isLEAP(year+1))
-
-        MONTH[] months = MONTH.values();
+        Month[] months = Month.values();
         for(int i = 0; i<month-1; i++) {
             if (i != 1) {
-                daysCnt += months[i].getDAYS_IN_MONTH();
+                daysCnt += months[i].getDaysInMonth();
             }
-            else if (!isLEAP(tmp)){
-                daysCnt += months[i].getDAYS_IN_MONTH();
+            else if (!isLeap(tmp)){
+                daysCnt += months[i].getDaysInMonth();
             }
             else {
-                daysCnt += months[i].getDAYS_IN_MONTH()+1;
+                daysCnt += months[i].getDaysInMonth()+1;
             }
         }
-        daysCnt+=day_of_month-1;
+        daysCnt+= dayOfMonth -1;
         return daysCnt;
     }
 
-    private DATE toDate(int daysCnt){
+    private Date toDate(int daysCnt){
         int year = 1;
         int month = 1;
         int day = 1;
         while (daysCnt>365){
             daysCnt -= 365;
-            if(isLEAP(year++)) daysCnt--;
+            if(isLeap(year++)) daysCnt--;
         }
-        if ((daysCnt==356)&&(!isLEAP(year))){
+        if ((daysCnt==356)&&(!isLeap(year))){
             daysCnt -= 365;
             year++;
         }
-        MONTH[] M = MONTH.values();
+        Month[] M = Month.values();
         for(int i = 0; i<12; i++){
             if(i!=1) {
-                if (daysCnt > M[i].getDAYS_IN_MONTH()) {
-                    daysCnt -= M[i].getDAYS_IN_MONTH();
+                if (daysCnt > M[i].getDaysInMonth()) {
+                    daysCnt -= M[i].getDaysInMonth();
                     month++;
                 } else {
                     break;
                 }
             }
             else{
-                if(isLEAP(year)){
-                    if (daysCnt > M[i].getDAYS_IN_MONTH()+1) {
-                        daysCnt -= M[i].getDAYS_IN_MONTH();
+                if(isLeap(year)){
+                    if (daysCnt > M[i].getDaysInMonth()+1) {
+                        daysCnt -= M[i].getDaysInMonth();
                         month++;
                     } else {
                         break;
                     }
                 }
                 else {
-                    if (daysCnt > M[i].getDAYS_IN_MONTH()) {
-                        daysCnt -= M[i].getDAYS_IN_MONTH();
+                    if (daysCnt > M[i].getDaysInMonth()) {
+                        daysCnt -= M[i].getDaysInMonth();
                         month++;
                     } else {
                         break;
@@ -400,11 +398,11 @@ public class CalendarGregorian {
             }
         }
         day+=daysCnt;
-        return new DATE(day,month,year);
+        return new Date(day,month,year);
     }
 
 
-    private static boolean isLEAP(int year){
+    private static boolean isLeap(int year){
         return (year % 400 == 0) || ((year % 100 != 0) && (year % 4 == 0));
     }
 }
