@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- * Интерфейс для функций и операций
+ * РРЅС‚РµСЂС„РµР№СЃ РґР»СЏ С„СѓРЅРєС†РёР№ Рё РѕРїРµСЂР°С†РёР№
  */
 interface ICommand {
     String getTokenRepresentation();
@@ -26,7 +26,7 @@ class SinCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для исполнения функции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РёСЃРїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё");
         args.push(Math.sin(args.pop()));
     }
 }
@@ -38,7 +38,7 @@ class CosCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для исполнения функции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РёСЃРїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё");
         args.push(Math.cos(args.pop()));
     }
 }
@@ -50,7 +50,7 @@ class SqrtCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для исполнения функции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РёСЃРїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё");
         args.push(Math.sqrt(args.pop()));
     }
 }
@@ -62,7 +62,7 @@ class LogCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для исполнения функции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РёСЃРїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё");
         args.push(Math.log(args.pop()));
     }
 }
@@ -74,9 +74,9 @@ class PowCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для исполнения функции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РёСЃРїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё");
         double x = args.pop();
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для исполнения функции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РёСЃРїРѕР»РЅРµРЅРёСЏ С„СѓРЅРєС†РёРё");
         double y = args.pop();
         args.push(Math.pow(x,y));
     }
@@ -89,9 +89,9 @@ class PlusCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double a = args.pop();
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double b = args.pop();
         args.push(a+b);
     }
@@ -104,9 +104,9 @@ class MinusCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double a = args.pop();
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double b = args.pop();
         args.push(a-b);
     }
@@ -119,9 +119,9 @@ class MultCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double a = args.pop();
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double b = args.pop();
         args.push(a*b);
     }
@@ -134,9 +134,9 @@ class DivCommand implements ICommand{
 
     @Override
     public void apply(Stack<Double> args) {
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double a = args.pop();
-        if (args.isEmpty()) throw new IllegalStateException("Недостаточно аргументов для выполнения операции");
+        if (args.isEmpty()) throw new IllegalStateException("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕРїРµСЂР°С†РёРё");
         double b = args.pop();
         args.push(a/b);
     }
@@ -150,11 +150,11 @@ public class Calculator {
     private String[] expr;
 
     /**
-     * Конструктор калькулятора
-     * @param inStream входной поток данных, оттуда считывается 1 строка
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР°Р»СЊРєСѓР»СЏС‚РѕСЂР°
+     * @param inStream РІС…РѕРґРЅРѕР№ РїРѕС‚РѕРє РґР°РЅРЅС‹С…, РѕС‚С‚СѓРґР° СЃС‡РёС‚С‹РІР°РµС‚СЃСЏ 1 СЃС‚СЂРѕРєР°
      */
     Calculator(InputStream inStream) {
-        if(inStream==null) throw new IllegalArgumentException("null в качестве потока ввода/вывода");
+        if(inStream==null) throw new IllegalArgumentException("null РІ РєР°С‡РµСЃС‚РІРµ РїРѕС‚РѕРєР° РІРІРѕРґР°/РІС‹РІРѕРґР°");
         try (BufferedReader in = new BufferedReader(new InputStreamReader(inStream))){
             expr = in.readLine().split(" ");
             tokens = new Stack<String>();
@@ -163,16 +163,16 @@ public class Calculator {
             handlers = new HashMap<String, ICommand>();
             loadCommands();
         } catch (IOException e){
-            System.out.println("Произошла ошибка ввода");
+            System.out.println("РџСЂРѕРёР·РѕС€Р»Р° РѕС€РёР±РєР° РІРІРѕРґР°");
         }
     }
 
     /**
-     * Конструктор калькулятора
-     * @param expression выражение для вычисления, все токены должны быть разделены пробелами ' '
+     * РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР°Р»СЊРєСѓР»СЏС‚РѕСЂР°
+     * @param expression РІС‹СЂР°Р¶РµРЅРёРµ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ, РІСЃРµ С‚РѕРєРµРЅС‹ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ СЂР°Р·РґРµР»РµРЅС‹ РїСЂРѕР±РµР»Р°РјРё ' '
      */
     Calculator(String expression){
-        if(expression==null) throw new IllegalArgumentException("null в качестве выражения");
+        if(expression==null) throw new IllegalArgumentException("null РІ РєР°С‡РµСЃС‚РІРµ РІС‹СЂР°Р¶РµРЅРёСЏ");
         expr = expression.split(" ");
         tokens = new Stack<String>();
         tokens.addAll(Arrays.asList(expr));
@@ -183,7 +183,7 @@ public class Calculator {
 
 
     private void registerCommand(ICommand handler){
-        if (handler == null) throw new NullPointerException("Переданн null в качестве команды");
+        if (handler == null) throw new NullPointerException("РџРµСЂРµРґР°РЅРЅ null РІ РєР°С‡РµСЃС‚РІРµ РєРѕРјР°РЅРґС‹");
         this.handlers.put(handler.getTokenRepresentation(), handler);
     }
     private void loadCommands(){
@@ -203,8 +203,8 @@ public class Calculator {
     }
 
     /**
-     * Добавление плагина-функции
-     * @param className имя класса, реализующего интерфейс ICommand
+     * Р”РѕР±Р°РІР»РµРЅРёРµ РїР»Р°РіРёРЅР°-С„СѓРЅРєС†РёРё
+     * @param className РёРјСЏ РєР»Р°СЃСЃР°, СЂРµР°Р»РёР·СѓСЋС‰РµРіРѕ РёРЅС‚РµСЂС„РµР№СЃ ICommand
      */
     private ICommand loadConstructorOfICommand (String className){
         try {
@@ -215,16 +215,16 @@ public class Calculator {
             return (ICommand) object;
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
-            throw new IllegalArgumentException("Не удалось загрузить плагин", e);
+            throw new IllegalArgumentException("РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°РіСЂСѓР·РёС‚СЊ РїР»Р°РіРёРЅ", e);
         }
     }
 
     /**
-     * Посчитать выражение, переданное при создании экземпляра класса или последнего вызова newExpr
-     * @return посчитанное значение
+     * РџРѕСЃС‡РёС‚Р°С‚СЊ РІС‹СЂР°Р¶РµРЅРёРµ, РїРµСЂРµРґР°РЅРЅРѕРµ РїСЂРё СЃРѕР·РґР°РЅРёРё СЌРєР·РµРјРїР»СЏСЂР° РєР»Р°СЃСЃР° РёР»Рё РїРѕСЃР»РµРґРЅРµРіРѕ РІС‹Р·РѕРІР° newExpr
+     * @return РїРѕСЃС‡РёС‚Р°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
      */
     public double parseExpression(){
-        if(tokens.isEmpty()) throw new IllegalArgumentException("Пустая строка");
+        if(tokens.isEmpty()) throw new IllegalArgumentException("РџСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°");
         String token;
         //double res;
         while (!tokens.isEmpty()){
@@ -235,11 +235,11 @@ public class Calculator {
             else if (handlers.containsKey(token)){
                 handlers.get(token).apply(numbers);
             }
-            else throw new UnsupportedOperationException("Данная функция не поддерживается или неверный формат выражения");
+            else throw new UnsupportedOperationException("Р”Р°РЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РЅРµ РїРѕРґРґРµСЂР¶РёРІР°РµС‚СЃСЏ РёР»Рё РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РІС‹СЂР°Р¶РµРЅРёСЏ");
         }
-        if (numbers.size()!=1) throw new IllegalArgumentException("Неверный формат выражения");
+        if (numbers.size()!=1) throw new IllegalArgumentException("РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РІС‹СЂР°Р¶РµРЅРёСЏ");
         double res = numbers.pop();
-        // "Перезагрузка" калькулятора, чтобы можно было получить значение выражения несколько раз
+        // "РџРµСЂРµР·Р°РіСЂСѓР·РєР°" РєР°Р»СЊРєСѓР»СЏС‚РѕСЂР°, С‡С‚РѕР±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїРѕР»СѓС‡РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РІС‹СЂР°Р¶РµРЅРёСЏ РЅРµСЃРєРѕР»СЊРєРѕ СЂР°Р·
         tokens = new Stack<String>();
         tokens.addAll(Arrays.asList(expr));
         handlers = new HashMap<String, ICommand>();
@@ -249,11 +249,11 @@ public class Calculator {
     }
 
     /**
-     * Поменять хранимое выражение для вычисления
-     * @param expression строка, содержащая новое выражение
+     * РџРѕРјРµРЅСЏС‚СЊ С…СЂР°РЅРёРјРѕРµ РІС‹СЂР°Р¶РµРЅРёРµ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ
+     * @param expression СЃС‚СЂРѕРєР°, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РЅРѕРІРѕРµ РІС‹СЂР°Р¶РµРЅРёРµ
      */
     public void newExpr(String expression){
-        if(expression==null) throw new IllegalArgumentException("null в качестве выражения");
+        if(expression==null) throw new IllegalArgumentException("null РІ РєР°С‡РµСЃС‚РІРµ РІС‹СЂР°Р¶РµРЅРёСЏ");
         expr = expression.split(" ");
         tokens = new Stack<String>();
         tokens.addAll(Arrays.asList(expr));
