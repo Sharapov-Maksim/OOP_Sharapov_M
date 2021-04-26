@@ -15,8 +15,8 @@ public class Pizzeria {
     private QueueContainer<Pizza> storage;
     private ArrayList<Baker> bakersList;
     private ArrayList<DeliveryMan> deliverymansList;
-    private boolean isPizzeriaOpened = false;
-    private boolean bakersStopedWorking = false;
+    private Boolean isPizzeriaOpened = false;
+    private Boolean bakersStillWorking = false;
 
     public enum Menu {
         Margherita, Carbonara, Napoletana, Valtellina;
@@ -39,10 +39,13 @@ public class Pizzeria {
             queue.add(object);
             notify();
         }
-        synchronized public T get(){
+        synchronized public T get(Boolean exitflag){
             while (queue.size() < 1){
                 try {
                     wait();
+                    if (exitflag) {
+                        return null;
+                    }
                 } catch (InterruptedException ignored) { }
             }
             T res = queue.poll();
@@ -82,7 +85,7 @@ public class Pizzeria {
 
     private class Baker extends Thread{
         private String name;
-        private int workExperience;
+        private int workExperience;  // Опыт работы - влияет на время приготовления пиццы
         private final Thread t;
 
         Baker(int workExperience, String name){
@@ -98,19 +101,22 @@ public class Pizzeria {
         public void run(){
             while (isPizzeriaOpened) {
                 if (!orders.isEmpty()) {
-                    Order order = orders.get();
+                    // Взятие заказа
+                    Order order = orders.get(isPizzeriaOpened);
+                    if (order == null) return;
                     System.out.println("Order №: " + order.id + "    State: order taken by baker " + this.name);
+                    // Приготовление пиццы
                     int timeToWork;
                     if (workExperience == 0)
                         timeToWork = 700;
                     timeToWork = (int) (500 + Math.round(100 * (1. / workExperience)));
                     try {
-                        Thread.sleep(timeToWork);
+                        Thread.sleep(timeToWork);       // типа готовит пиццу
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     System.out.println("Order №: " + order.id + "    State: pizza cooked, storing...");
-                    storage.add(new Pizza(order.pizzaType, order.pizzaName, order));
+                    storage.add(new Pizza(order.pizzaType, order.pizzaName, order)); // Пицца кладётся на склад
                     System.out.println("Order №: " + order.id + "    State: added to storage and ready to delivery");
                 }
             }
@@ -119,9 +125,9 @@ public class Pizzeria {
 
     private class DeliveryMan extends Thread{
         private final String name;
-        private final int trunkSize;
-        private ArrayList<Pizza> trunk;
-        private int pizzasInTrunk = 0;
+        private final int trunkSize;    // Размер багажника (максимальное кол-во одновременно перевозимых пицц)
+        private ArrayList<Pizza> trunk; // Багажник
+        private int pizzasInTrunk = 0;  // Счётчик кол-ва пицц в багажнике
         private final Thread t;
 
         DeliveryMan(String name, int maxCapacity){
@@ -136,10 +142,11 @@ public class Pizzeria {
         }
 
         public void run(){
-            while (!bakersStopedWorking || !storage.isEmpty()) {
+            while (bakersStillWorking || !storage.isEmpty()) {
                 // Взятие доставщиком пицц со склада
                 while (pizzasInTrunk < trunkSize && !storage.isEmpty()) {
-                    Pizza p = storage.get();
+                    Pizza p = storage.get(bakersStillWorking);
+                    if (p == null) break;
                     trunk.add(p);
                     System.out.println("Order №: " + p.order.id + "    State: Deliveryman " + this.name + " takes pizza");
                     pizzasInTrunk++;
@@ -178,19 +185,22 @@ public class Pizzeria {
     public void startWork(int ordersCnt){
         // Открытие пиццерии и создание работников
         isPizzeriaOpened = true;
+        bakersStillWorking = true;
         for(int i = 0; i<bakersCount; i++){
-            bakersList.add(new Baker(i,"Baker"+i));
+            bakersList.add(new Baker(i,"Baker"+i)); // Добавление пекарей
         }
         for(int i = 0; i<deliverymansCount; i++){
-            deliverymansList.add(new DeliveryMan("Deliveryman"+i, i%3 + 1));
+            deliverymansList.add(new DeliveryMan("Deliveryman"+i, 3)); // Добавление доставщиков
         }
-        //save("bakers.json", "deliverymans.json");
         // Генерация заказов
         for (int ID = 0; ID < ordersCnt; ID++){
             generateOrder(ID);
         }
         // Закрытие пиццерии и ожидание оканчания работы работников
         isPizzeriaOpened = false;
+        synchronized (orders) {
+            orders.notifyAll();
+        }
         for (Baker bakerThread: bakersList){
             try{
                 bakerThread.t.join();
@@ -199,7 +209,10 @@ public class Pizzeria {
                 System.out.println(bakerThread.t + " interrupted");
             }
         }
-        bakersStopedWorking = true;
+        bakersStillWorking = false;
+        synchronized (storage){
+            storage.notifyAll();
+        }
         for (DeliveryMan deliverymanThread: deliverymansList) {
             try {
                 deliverymanThread.t.join();
@@ -216,22 +229,5 @@ public class Pizzeria {
         Order ord = new Order(ID, pizzaType, name);
         System.out.println("Order №: " + ID + "    State: order received. Pizza name: " + name);
         orders.add(ord);
-    }
-
-    public void save (String fileNameForBakers, String fileNameForDeliverymans) {
-        Gson gson = new Gson();
-        String jsonBakers = gson.toJson(bakersList);
-        try(FileWriter writer = new FileWriter(fileNameForBakers, false)) {
-            writer.write(jsonBakers);
-        } catch(IOException ex){
-            System.out.println(ex.getMessage());
-        }
-        Gson gson2 = new Gson();
-        String jsonDeliverymans = gson2.toJson(deliverymansList);
-        try(FileWriter writer = new FileWriter(fileNameForDeliverymans, false)) {
-            writer.write(jsonDeliverymans);
-        } catch(IOException ex){
-            System.out.println(ex.getMessage());
-        }
     }
 }
