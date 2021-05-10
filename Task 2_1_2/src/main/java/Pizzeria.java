@@ -1,29 +1,33 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
 public class Pizzeria {
-    private int bakersCount;
-    private int deliverymansCount;
-    private QueueContainer<Order> orders;
-    private QueueContainer<Pizza> storage;
-    private ArrayList<Baker> bakersList;
-    private ArrayList<DeliveryMan> deliverymansList;
+    private final int bakersCount;
+    private final int deliverymansCount;
+    private final QueueContainer<Order> orders;
+    private final QueueContainer<Pizza> storage;
+    private final ArrayList<Baker> bakersList;
+    private final ArrayList<DeliveryMan> deliverymansList;
     private Boolean isPizzeriaOpened = false;
     private Boolean bakersStillWorking = false;
 
     public enum Menu {
         Margherita, Carbonara, Napoletana, Valtellina;
     }
-    private class QueueContainer<T>{
-        private ArrayDeque<T> queue;
-        private int maxSize;
+    private static class QueueContainer<T>{
+        private final ArrayDeque<T> queue;
+        private final int maxSize;
 
         QueueContainer(int size){
             this.maxSize = size;
@@ -57,7 +61,7 @@ public class Pizzeria {
         }
     }
 
-    private class Order{
+    private static class Order{
         private final int id;
         private final int pizzaType;
         private final String pizzaName;
@@ -69,7 +73,7 @@ public class Pizzeria {
         }
     }
 
-    private class Pizza{
+    private static class Pizza{
         private final int typeID;
         private final String name;
         private final Order order;
@@ -84,8 +88,8 @@ public class Pizzeria {
     }
 
     private class Baker extends Thread{
-        private String name;
-        private int workExperience;  // Опыт работы - влияет на время приготовления пиццы
+        private final String name;
+        private final int workExperience;  // Опыт работы - влияет на время приготовления пиццы
         private final Thread t;
 
         /**
@@ -127,10 +131,27 @@ public class Pizzeria {
         }
     }
 
+    private class BakerSave{
+        private final String name;
+        private final int workExperience;  // Опыт работы - влияет на время приготовления пиццы
+
+        /**
+         * Конструктор класса пекаря
+         * @param workExperience Опыт работы пекаря - влияет на время, требуемое на приготовление пиццы
+         * @param name           Имя пекаря
+         */
+        BakerSave(int workExperience, String name){
+            if (workExperience<0) throw new IllegalArgumentException("Work experience should not be negative value");
+            if (name == null) throw new IllegalArgumentException("Null as argument");
+            this.workExperience = workExperience;
+            this.name = name;
+        }
+    }
+
     private class DeliveryMan extends Thread{
         private final String name;
         private final int trunkSize;    // Размер багажника (максимальное кол-во одновременно перевозимых пицц)
-        private ArrayList<Pizza> trunk; // Багажник
+        private final ArrayList<Pizza> trunk; // Багажник
         private int pizzasInTrunk = 0;  // Счётчик кол-ва пицц в багажнике
         private final Thread t;
 
@@ -177,6 +198,25 @@ public class Pizzeria {
 
     }
 
+    private class DeliveryManSave{
+        private final String name;
+        private final int trunkSize;    // Размер багажника (максимальное кол-во одновременно перевозимых пицц)
+        private final ArrayList<Pizza> trunk; // Багажник
+        private int pizzasInTrunk = 0;  // Счётчик кол-ва пицц в багажнике
+
+        /**
+         * Конструктор доставщика
+         * @param name        Имя доставщика пиццы
+         * @param maxCapacity Размер багажника
+         */
+        DeliveryManSave(String name, int maxCapacity){
+            if (name == null) throw new IllegalArgumentException("Name should not be Null");
+            if (maxCapacity < 1) throw new IllegalArgumentException("Trunk size of deliveryman should be positive value");
+            this.name = name;
+            this.trunkSize = maxCapacity;
+            this.trunk = new ArrayList<>(maxCapacity);
+        }
+    }
     /**
      * Конструктор класса пиццерии
      * @param bakersCount       Количество пекарей в пиццерии
@@ -198,20 +238,18 @@ public class Pizzeria {
      * Запустить самостоятельную работу пиццерии
      * @param ordersCnt количество заказов, которые будут сгенерированы и обработаны
      */
-    public void startWork(int ordersCnt){
+    public void startWork(int ordersCnt, String bakersJSONFileName, String deliverymansJSONFileName){
         // Открытие пиццерии и создание работников
         isPizzeriaOpened = true;
         bakersStillWorking = true;
-        for(int i = 0; i<bakersCount; i++){
-            bakersList.add(new Baker(i,"Baker"+i)); // Добавление пекарей
-        }
-        for(int i = 0; i<deliverymansCount; i++){
-            deliverymansList.add(new DeliveryMan("Deliveryman"+i, 3)); // Добавление доставщиков
-        }
+        loadWorkers(bakersJSONFileName, deliverymansJSONFileName);
+
         // Генерация заказов
         for (int ID = 0; ID < ordersCnt; ID++){
             generateOrder(ID);
         }
+        saveWorkers("saveBakers.json","saveDeliverymans.json");
+
         // Закрытие пиццерии и ожидание оканчания работы работников
         isPizzeriaOpened = false;
         synchronized (orders) {
@@ -236,6 +274,7 @@ public class Pizzeria {
                 System.out.println(deliverymanThread.t + " interrupted");
             }
         }
+
     }
 
 
@@ -245,5 +284,72 @@ public class Pizzeria {
         Order ord = new Order(ID, pizzaType, name);
         System.out.println("Order №: " + ID + "    State: order received. Pizza name: " + name);
         orders.add(ord);
+    }
+
+    public void saveWorkers (String fileNameForBakers, String fileNameForDeliverymans) {
+        ArrayList<BakerSave> listB = new ArrayList<BakerSave>(bakersCount);
+        for (Baker baker : this.bakersList){
+            listB.add(new BakerSave(baker.workExperience, baker.name));
+        }
+        String jsonBakers = new Gson().toJson(listB);
+        try(FileWriter writer = new FileWriter(fileNameForBakers, false)) {
+            writer.write(jsonBakers);
+        } catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        ArrayList<DeliveryManSave> listD = new ArrayList<DeliveryManSave>(bakersCount);
+        for (DeliveryMan dm : this.deliverymansList){
+            listD.add(new DeliveryManSave(dm.name, dm.trunkSize));
+        }
+        String jsonDeliverymans = new Gson().toJson(listD);
+        try(FileWriter writer = new FileWriter(fileNameForDeliverymans, false)) {
+            writer.write(jsonDeliverymans);
+        } catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void loadWorkers (String fileNameForBakers, String fileNameForDeliverymans){
+        if (fileNameForBakers != null) {
+            String json = null;
+            try {
+                json = new String(Files.readAllBytes(Paths.get(fileNameForBakers)));
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Type type = new TypeToken<ArrayList<BakerSave>>(){}.getType();
+            ArrayList<BakerSave> res = gson.fromJson(json, type);
+            ArrayList<BakerSave> listB = new ArrayList<BakerSave>(bakersCount);
+            for (BakerSave baker : res) {
+                this.bakersList.add(new Baker(baker.workExperience, baker.name));
+            }
+        }
+        else{
+            for(int i = 0; i<bakersCount; i++){
+                bakersList.add(new Baker(i,"Baker"+i)); // Добавление пекарей
+            }
+        }
+        if (fileNameForDeliverymans != null) {
+            String json = null;
+            try {
+                json = new String(Files.readAllBytes(Paths.get(fileNameForDeliverymans)));
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Type type = new TypeToken<ArrayList<DeliveryManSave>>(){}.getType();
+            ArrayList<DeliveryManSave> res = gson.fromJson(json,type);
+            ArrayList<DeliveryManSave> listB = new ArrayList<DeliveryManSave>(bakersCount);
+            for (DeliveryManSave dms : res) {
+                this.deliverymansList.add(new DeliveryMan(dms.name, dms.trunkSize));
+            }
+        }
+        else{
+            for(int i = 0; i<deliverymansCount; i++){
+                deliverymansList.add(new DeliveryMan("Deliveryman"+i, 3)); // Добавление доставщиков
+            }
+        }
     }
 }
