@@ -88,6 +88,11 @@ public class Pizzeria {
         private int workExperience;  // Опыт работы - влияет на время приготовления пиццы
         private final Thread t;
 
+        /**
+         * Конструктор класса пекаря
+         * @param workExperience Опыт работы пекаря - влияет на время, требуемое на приготовление пиццы
+         * @param name           Имя пекаря
+         */
         Baker(int workExperience, String name){
             if (workExperience<0) throw new IllegalArgumentException("Work experience should not be negative value");
             if (name == null) throw new IllegalArgumentException("Null as argument");
@@ -99,11 +104,11 @@ public class Pizzeria {
         }
 
         public void run(){
-            while (isPizzeriaOpened) {
-                if (!orders.isEmpty()) {
+            while (isPizzeriaOpened || !orders.isEmpty()) {
                     // Взятие заказа
                     Order order = orders.get(isPizzeriaOpened);
-                    if (order == null) return;
+                    if (order == null && orders.isEmpty()) return; // В случае если поток разбудили и работать больше не надо
+                    else if (order == null && !orders.isEmpty()) continue; // Если нужно продолжить работу
                     System.out.println("Order №: " + order.id + "    State: order taken by baker " + this.name);
                     // Приготовление пиццы
                     int timeToWork;
@@ -111,14 +116,13 @@ public class Pizzeria {
                         timeToWork = 700;
                     timeToWork = (int) (500 + Math.round(100 * (1. / workExperience)));
                     try {
-                        Thread.sleep(timeToWork);       // типа готовит пиццу
+                        Thread.sleep(timeToWork);       // "приготовление пиццы"
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     System.out.println("Order №: " + order.id + "    State: pizza cooked, storing...");
                     storage.add(new Pizza(order.pizzaType, order.pizzaName, order)); // Пицца кладётся на склад
                     System.out.println("Order №: " + order.id + "    State: added to storage and ready to delivery");
-                }
             }
         }
     }
@@ -130,6 +134,11 @@ public class Pizzeria {
         private int pizzasInTrunk = 0;  // Счётчик кол-ва пицц в багажнике
         private final Thread t;
 
+        /**
+         * Конструктор доставщика
+         * @param name        Имя доставщика пиццы
+         * @param maxCapacity Размер багажника
+         */
         DeliveryMan(String name, int maxCapacity){
             if (name == null) throw new IllegalArgumentException("Name should not be Null");
             if (maxCapacity < 1) throw new IllegalArgumentException("Trunk size of deliveryman should be positive value");
@@ -161,13 +170,20 @@ public class Pizzeria {
                     }
                     System.out.println("Order №: " + p.order.id + "    State: Pizza was delivered");
                 }
-                trunk.removeAll(trunk); // ¯\_(ツ)_/¯
+                trunk.removeAll(trunk);
                 pizzasInTrunk = 0;
             }
         }
 
     }
 
+    /**
+     * Конструктор класса пиццерии
+     * @param bakersCount       Количество пекарей в пиццерии
+     * @param deliverymansCount Количество доставщиков в пиццерии
+     * @param maxOrdersCnt      Максимальное кол-во заказов в очереди
+     * @param storageSize       Максимальное кол-во пицц хранящихся на складе
+     */
     Pizzeria (int bakersCount, int deliverymansCount, int maxOrdersCnt, int storageSize){
         if (bakersCount <= 0 || deliverymansCount <= 0) throw new IllegalArgumentException("Count of workers should be positive");
         this.bakersCount = bakersCount;
